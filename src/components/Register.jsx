@@ -1,11 +1,9 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
-
-
+import { Link, useNavigate } from 'react-router-dom'; // Import useNavigate hook
 
 const BASE_URL = process.env.REACT_APP_API_URL;
 
-const Register = ({ setUser }) => {
+const Register = ({ setUser }) => { // setUser is still a prop, but we won't use it for direct login here
   const [formData, setFormData] = useState({
     username: '',
     email: '',
@@ -13,6 +11,8 @@ const Register = ({ setUser }) => {
   });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+
+  const navigate = useNavigate(); // Initialize useNavigate hook
 
   const handleChange = (e) => {
     setFormData({
@@ -38,10 +38,13 @@ const Register = ({ setUser }) => {
       const data = await response.json();
 
       if (response.ok) {
-        localStorage.setItem('token', data.token);
-        setUser(data.user);
+        // Registration successful!
+        // Instead of logging in, redirect to the login page.
+        // Optionally, you could show a success message before redirecting.
+        alert('Registration successful! Please log in with your new account.'); // Simple alert for feedback
+        navigate('/login'); // Redirect to the login page
       } else {
-        setError(data.message);
+        setError(data.message || 'Registration failed. Please try again.'); // Use data.message if available
       }
     } catch (error) {
       setError('Network error. Please try again.');
@@ -64,7 +67,7 @@ const Register = ({ setUser }) => {
               {error}
             </div>
           )}
-          
+
           <div className="space-y-4">
             <div>
               <label className="block text-sm font-medium text-gray-700">
@@ -79,7 +82,7 @@ const Register = ({ setUser }) => {
                 className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
-            
+
             <div>
               <label className="block text-sm font-medium text-gray-700">
                 Email
@@ -93,7 +96,7 @@ const Register = ({ setUser }) => {
                 className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
-            
+
             <div>
               <label className="block text-sm font-medium text-gray-700">
                 Password
