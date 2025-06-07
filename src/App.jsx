@@ -4,6 +4,8 @@ import Login from './components/Login';
 import Register from './components/Register';
 import Chat from './components/Chat';
 
+const BASE_URL = process.env.REACT_APP_API_URL;
+
 function App() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -20,7 +22,7 @@ function App() {
 
   const fetchUser = async (token) => {
     try {
-      const response = await fetch('http://localhost:5000/api/auth/me', {
+      const response = await fetch(`${BASE_URL}/api/auth/me`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
